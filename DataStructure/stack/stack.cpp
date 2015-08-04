@@ -109,3 +109,21 @@ template <class T>
     root_ = n->GetNext();
     return n->GetData();
   }
+
+template <class T>
+  Stack<T>* Stack<T>::Clone() {
+    Stack<T>* ret = new Stack<T>();
+    Stack<T> templ;
+    node<T>* curr = root_;
+    while(curr != nullptr) {
+      templ.Push(*(curr->GetData()));
+      curr = curr->GetNext();
+    }
+
+    curr = templ.root_;
+    while(curr != nullptr) {
+      ret->Push(*(curr->GetData()));
+      curr = curr->GetNext();
+    }
+    return ret;
+  }

@@ -51,6 +51,7 @@ namespace stack {
 
       void Push(const T&);
       T* Pop();
+      Stack* Clone();
     private:
       node<T>* root_;
     };
