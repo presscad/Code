@@ -6,7 +6,7 @@
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  01/08/2015 15:44:47
+ *        Created:  04/08/2015 21:35:11
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,21 +16,12 @@
  * =====================================================================================
  */
 
-#include "tree.h"
-#include <ctime>
-#include <cstdlib>
-#include <cstdio>
-using namespace std;
-using namespace binary_tree;
+#include "stack.h"
+using namespace stack;
 
-const int number = 1048576;
 int main() {
-  tree<int> t;
-  srand(time(nullptr));
-  for(int i = 0; i < number; i++) {
-    int r = rand() % 10000;
-    t.AddNode(r);
-  }
-//  t.TravelTree(t.GetRoot());
+  Stack<int> test;
+  test.Push(12);
+  test.Push(10);
   return 0;
 }
