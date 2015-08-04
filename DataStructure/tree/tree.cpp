@@ -28,21 +28,6 @@ node<T>::node() :
 {}
 
 template <class T>
-node<T>::node(const node& n) : 
-  node<T>()
-{
-  data_ = new T(*n.data_);
-}
-
-template <class T>
-node<T>::node(node&& n) : 
-  node<T>() 
-{
-  delete data_;
-  data_ = n.data_; 
-}
-
-template <class T>
 bool node<T>::operator<(const node<T>& n) {
   return *data_ < *(n.data_);
 }

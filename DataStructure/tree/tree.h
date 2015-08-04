@@ -26,8 +26,8 @@ namespace binary_tree {
     public:      
       //life cycle
       node();
-      node(const node&);
-      node(node&&);
+      node(const node&) = delete;
+      node(node&&) = delete;
       virtual ~node() noexcept;
 
       //prevent assign from other source
