@@ -79,6 +79,19 @@ Tree<T>::~Tree<T>() noexcept {
     root_ = nullptr;
   }
 }
+
+template <class T>
+void swap(Tree<T>& first, Tree<T>& second) {
+  using std::swap;
+  swap(first.root_, second.root_);
+}
+
+template <class T>
+Tree<T>& Tree<T>::operator=(Tree<T>&& t) {
+  swap(*this, t);
+  return *this;
+}
+
 template <class T>
 void Tree<T>::AddNode(const T& t) {
   Node<T>** p_curr = &root_;

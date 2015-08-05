@@ -31,7 +31,8 @@ namespace binary_tree {
       virtual ~Node() noexcept;
 
       //prevent assign from other source
-      Node& operator=(Node&) = delete;
+      Node& operator=(const Node&) = delete;
+      Node& operator=(Node&&) = delete;
 
       //operator
       bool operator<(const Node&);
@@ -65,19 +66,21 @@ namespace binary_tree {
       //life cycle
       Tree();
       Tree(Tree&&);
+      Tree(const Tree&) = delete;
       virtual ~Tree() noexcept;
 
       //access 
       Node<T>* GetRoot() const {return root_;}
 
-      //abadoned function
-      Tree(const Tree&) = delete;
-      Tree& operator=(Tree) = delete;
+      //assign operator
+      Tree& operator=(const Tree&) = delete;
+      Tree& operator=(Tree&&);
+      template <class U>
+      friend void swap(Tree<U>&, Tree<U>&);
 
       //methods
       void AddNode(const T&);
       void TravelTree(Node<T>*);
-
     private:
       Node<T>* root_;
     };
