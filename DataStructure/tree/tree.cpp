@@ -106,6 +106,17 @@ void Tree<T>::AddNode(const T& t) {
 }
 
 template <class T>
+void Tree<T>::AddNodeByCompareFunc(const T& t) {
+  Node<T>** p_curr = &root_;
+  Node<T>* n = new Node<T>();
+  n->SetData(t);
+  while(*p_curr != nullptr) {
+    p_curr = (*p_curr)->Children() + Compare(t, *(*p_curr)->Data());
+  }
+  *p_curr = n;
+}
+
+template <class T>
 void Tree<T>::TravelTree(Node<T>* n) {
   Node<T>** children = n->Children();
   if(*children)

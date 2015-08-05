@@ -80,7 +80,12 @@ namespace binary_tree {
 
       //methods
       void AddNode(const T&);
+      void AddNodeByCompareFunc(const T&);
       void TravelTree(Node<T>*);
+
+
+    public:
+      int (*Compare)(const T&, const T&);
     private:
       Node<T>* root_;
     };
