@@ -20,20 +20,20 @@
 #define _STACK_H_
 namespace stack {
   template <class T>
-    class node {
+    class Node {
     public:
-      node();
-      virtual ~node() noexcept;
-      node(const node&) = delete;
-      node(node&&) = delete;
+      Node();
+      virtual ~Node() noexcept;
+      Node(const Node&) = delete;
+      Node(Node&&) = delete;
 
-      node& operator=(node) = delete;
-      void SetNext(node*);
+      Node& operator=(Node) = delete;
+      void SetNext(Node*);
       void SetData(const T&);
-      node* GetNext() const;
+      Node* GetNext() const;
       T* GetData() const;
     private:
-      node* next_;
+      Node* next_;
       T* data_;
     };
 
@@ -53,7 +53,7 @@ namespace stack {
       T* Pop();
       Stack* Clone();
     private:
-      node<T>* root_;
+      Node<T>* root_;
     };
 }
 

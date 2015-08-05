@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  tree.h
+ *       Filename:  Tree.h
  *
  *    Description:  
  *
@@ -22,64 +22,64 @@
 
 namespace binary_tree {
   template <class T>
-    class node {
+    class Node {
     public:      
       //life cycle
-      node();
-      node(const node&) = delete;
-      node(node&&) = delete;
-      virtual ~node() noexcept;
+      Node();
+      Node(const Node&) = delete;
+      Node(Node&&) = delete;
+      virtual ~Node() noexcept;
 
       //prevent assign from other source
-      node& operator=(node&) = delete;
+      Node& operator=(Node&) = delete;
 
       //operator
-      bool operator<(const node&);
-      bool operator<(node&&);
-      bool operator==(const node&);
-      bool operator==(node&&);
+      bool operator<(const Node&);
+      bool operator<(Node&&);
+      bool operator==(const Node&);
+      bool operator==(Node&&);
 
       //access function
-      node** Children() {return child_;};
-      node* Left() const {return child_[0];}
-      node* Right() const {return child_[1];}      
-      node** pLeft() {return child_;}
-      node** pRight() {return child_++;}
+      Node** Children() {return child_;};
+      Node* Left() const {return child_[0];}
+      Node* Right() const {return child_[1];}      
+      Node** pLeft() {return child_;}
+      Node** pRight() {return child_++;}
       T* Data() const {return data_;}
   
       //methods
-      void SetLeft(const node* left) {child_[0] = left;}
-      void SetRight(const node* right) {child_[1] = right;}
+      void SetLeft(const Node* left) {child_[0] = left;}
+      void SetRight(const Node* right) {child_[1] = right;}
       void SetData(const T& data) {data_ = new T(data);}
       void SetData(T&& data) {data_ = new T(data);}
       
     private:
       //private members
-      node* child_[2];
+      Node* child_[2];
       T* data_;
     };
 
   template <class T>
-    class tree {
+    class Tree {
     public:
       //life cycle
-      tree();
-      tree(tree&&);
-      virtual ~tree() noexcept;
+      Tree();
+      Tree(Tree&&);
+      virtual ~Tree() noexcept;
 
       //access 
-      node<T>* GetRoot() const {return root_;}
+      Node<T>* GetRoot() const {return root_;}
 
       //abadoned function
-      tree(const tree&) = delete;
-      tree& operator=(tree) = delete;
+      Tree(const Tree&) = delete;
+      Tree& operator=(Tree) = delete;
 
       //methods
       void AddNode(const T&);
-      void TravelTree(node<T>*);
+      void TravelTree(Node<T>*);
 
     private:
-      node<T>* root_;
+      Node<T>* root_;
     };
 }
 

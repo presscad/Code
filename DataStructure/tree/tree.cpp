@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  tree.cpp
+ *       Filename:  Tree.cpp
  *
  *    Description:  
  *
@@ -22,33 +22,33 @@ using namespace binary_tree;
 using namespace std;
 
 template <class T> 
-node<T>::node() : 
+Node<T>::Node() : 
   child_{nullptr},
   data_(nullptr)
 {}
 
 template <class T>
-bool node<T>::operator<(const node<T>& n) {
+bool Node<T>::operator<(const Node<T>& n) {
   return *data_ < *(n.data_);
 }
 
 template <class T>
-bool node<T>::operator<(node<T>&& n) {
+bool Node<T>::operator<(Node<T>&& n) {
   return *data_ < *(n.data_);
 }
 
 template <class T>
-bool node<T>::operator==(const node<T>& n) {
+bool Node<T>::operator==(const Node<T>& n) {
   return *data_ == *(n.data_);
 }
 
 template <class T>
-bool node<T>::operator==(node<T>&& n) {
+bool Node<T>::operator==(Node<T>&& n) {
   return *data_ == *(n.data_);
 }
 
 template <class T>
-node<T>::~node() noexcept {
+Node<T>::~Node() noexcept {
   if(*child_) {
     delete *child_;
     *child_ = nullptr;
@@ -61,31 +61,31 @@ node<T>::~node() noexcept {
 }
 
 template <class T>
-tree<T>::tree() :
+Tree<T>::Tree() :
   root_(nullptr)
 {}
 
 template <class T>
-tree<T>::tree(tree&& t) :
-  tree() 
+Tree<T>::Tree(Tree&& t) :
+  Tree() 
 {
   root_ = t.root_;
 }
 
 template <class T>
-tree<T>::~tree<T>() noexcept {
+Tree<T>::~Tree<T>() noexcept {
   if(root_) {
     delete root_;
     root_ = nullptr;
   }
 }
 template <class T>
-void tree<T>::AddNode(const T& t) {
-  node<T>** p_curr = &root_;
-  //make new node with data is "t"
-  node<T>* n = new node<T>();
+void Tree<T>::AddNode(const T& t) {
+  Node<T>** p_curr = &root_;
+  //make new Node with data is "t"
+  Node<T>* n = new Node<T>();
   n->SetData(t);
-  //find the position to add new node
+  //find the position to add new Node
   while(*p_curr != nullptr) {
     p_curr = (*p_curr)->Children() + (**p_curr < *n);
   }
@@ -93,8 +93,8 @@ void tree<T>::AddNode(const T& t) {
 }
 
 template <class T>
-void tree<T>::TravelTree(node<T>* n) {
-  node<T>** children = n->Children();
+void Tree<T>::TravelTree(Node<T>* n) {
+  Node<T>** children = n->Children();
   if(*children)
     TravelTree(*children);
   cout << *(n->Data()) << endl;
