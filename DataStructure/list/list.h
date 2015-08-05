@@ -40,8 +40,8 @@ namespace list {
       T** pData() {return &data_;}
       T* Data() {return data_;}
 
-      void SetNext(const Node*);
-      void SetPrev(const Node*);
+      void SetNext(Node*);
+      void SetPrev(Node*);
       void SetData(const T&);
     private:
       Node* next_;
@@ -66,13 +66,13 @@ namespace list {
 
 
       //
-      void PushFront(Node<T>* const);
+      void PushFront(const T&);
       //
-      void PushBack(Node<T>* const);
+      void PushBack(const T&);
       //
-      Node<T>* PopFront();
+      T* PopFront();
       //
-      Node<T>* PopBack();
+      T* PopBack();
 
       //Insert the single node "source" after node in list.
       //
