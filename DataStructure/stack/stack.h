@@ -43,10 +43,10 @@ namespace stack {
     public:
       Stack();
       virtual ~Stack() noexcept;
-      Stack(const Stack&);
+      Stack(const Stack&) = delete;
       Stack(Stack&&);
 
-      Stack& operator=(const Stack&);
+      Stack& operator=(const Stack&) = delete;
       Stack& operator=(Stack&&);
 
       void Push(const T&);

@@ -83,7 +83,6 @@ namespace binary_tree {
       void AddNodeByCompareFunc(const T&);
       void TravelTree(Node<T>*);
 
-
     public:
       int (*Compare)(const T&, const T&);
     private:

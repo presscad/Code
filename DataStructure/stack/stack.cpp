@@ -74,17 +74,7 @@ template <class T>
   }
 
 template <class T>
-  Stack<T>::Stack(const Stack<T>& s) {
-    root_ = s.root_;
-  }
-
-template <class T>
   Stack<T>::Stack(Stack<T>&& s) {
-    root_ = s.root_;
-  }
-
-template <class T>
-  Stack<T>& Stack<T>::operator=(const Stack<T>& s) {
     root_ = s.root_;
   }
 
