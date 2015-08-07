@@ -58,6 +58,9 @@ Node<T>::~Node() noexcept {
     delete child_[1];
     child_[1] = nullptr;
   }
+
+  if(data_)
+    delete data_;
 }
 
 template <class T>
