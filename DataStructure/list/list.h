@@ -6,7 +6,7 @@
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  05/08/2015 20:01:25
+ *        Created:  06/08/2015 22:10:27
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,88 +16,60 @@
  * =====================================================================================
  */
 
+#ifndef _LIST_H_
+#define _LIST_H_
 
-#ifndef _LINKED_LIST_H_
-#define _LINKED_LIST_H_
-
-namespace list {
+namespace stc {
   template <class T>
     class Node {
     public:
-      Node();
+      Node(const T&,
+           Node* next = nullptr,
+           Node* prev = nullptr);
+      Node(T&&,
+           Node* next = nullptr,
+           Node* prev = nullptr);
+      Node(Node* next = nullptr,
+           Node* prev = nullptr);
+      Node(Node&&);
       virtual ~Node();
 
-      //abadonned function
-      Node(const Node&) = delete;
-      Node(Node&&) = delete;
-      Node& operator=(Node) = delete;
 
-      //access function
-      Node** pNext() {return &next_;}
-      Node** pPrev() {return &prev_;}
+      //abadonned functions
+      Node(const Node&) = delete;
+      Node& operator=(const Node&) = delete;
+      Node& operator=(Node&&) = delete;
+
+      //access
       Node* Next() const {return next_;}
       Node* Prev() const {return prev_;}
-      T** pData() {return &data_;}
-      T* Data() {return data_;}
-
+      T* Data() const {return data_;}
       void SetNext(Node*);
       void SetPrev(Node*);
       void SetData(const T&);
+      void SetData(T&&);
+      void SetDataWithNull(const T&);
+      void SetDataWithNull(T&&);
     private:
       Node* next_;
       Node* prev_;
       T* data_;
     };
+
   template <class T>
     class LinkedList {
     public:
       LinkedList();
-      virtual ~LinkedList();
       LinkedList(LinkedList&&);
+      virtual ~LinkedList();
       LinkedList& operator=(LinkedList&&);
 
-      //abadonned function
+      //abadonned functions
       LinkedList(const LinkedList&) = delete;
       LinkedList& operator=(const LinkedList&) = delete;
 
-      //access function
-      Node<T>* Head() const {return head_;}
-      Node<T>* Tail() const {return tail_;}
-
-
-      //
-      void PushFront(const T&);
-      //
       void PushBack(const T&);
-      //
-      T* PopFront();
-      //
-      T* PopBack();
-
-      //Insert the single node "source" after node in list.
-      //
-      void InsertAfter(Node<T>* const source , Node<T>* const ins);
-      //
-      void InsertBefore(Node<T>* const source, Node<T>* const ins);
-
-      //Insert a sub-list after a node in list
-      void InsertAfter(Node<T>* const, Node<T>* const, Node<T>* const);
-      //
-      void InsertBefore(Node<T>* const, Node<T>* const, Node<T>* const);
-
-      //Insert a single node before a node in list
-      //Delete a single node
-      void Delete(Node<T>*);
-      //Delete "n" consecutive nodes
-      void Delete(Node<T>*, int n);
-      //Delete a sub-list in list. 
-      void Delete(Node<T>*, Node<T>*);
-
-      //Sort list with operator <
-      void Sort();
-      //Sort list with a function pointer
-      void Sort(bool (*Compare)(const T&, const T&));
-      
+      void PushBack(T&&);
     private:
       Node<T>* head_;
       Node<T>* tail_;
@@ -105,4 +77,5 @@ namespace list {
 }
 
 #include "list.cpp"
+
 #endif

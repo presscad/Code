@@ -6,7 +6,7 @@
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  05/08/2015 23:25:35
+ *        Created:  06/08/2015 22:21:57
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -17,114 +17,136 @@
  */
 
 #include "list.h"
-using namespace list;
+
+using namespace stc;
 
 template <class T>
-  Node<T>::Node() :
-    next_(nullptr),
-    prev_(nullptr),
-    data_(nullptr) 
-  {}
+  Node<T>::Node(const T& t,
+                Node* next,
+                Node* prev) :
+    next_(next),
+    prev_(prev) {
+      data_ = new T(t);
+    }
+
+template <class T>
+  Node<T>::Node(T&& t,
+                Node* next,
+                Node* prev) :
+    next_(next),
+    prev_(prev) {
+      data_ = new T(t);
+    }
+
+template <class T>
+  Node<T>::Node(Node* next,
+                Node* prev) :
+    next_(next),
+    prev_(prev),
+    data_(nullptr) {}
+
+template <class T>
+  Node<T>::Node(Node&& n) {
+    next_ = n.next_;
+    prev_ = n.prev_;
+    data_ = n.data_;
+  }
 
 template <class T>
   Node<T>::~Node() {
+    next_ = nullptr;
+    prev_ = nullptr;
     if(data_) {
       delete data_;
       data_ = nullptr;
     }
-    next_ = nullptr;
-    prev_ = nullptr;
   }
 
 template <class T>
   void Node<T>::SetNext(Node<T>* n) {
     next_ = n;
-    n->prev_ = this;
   }
 
 template <class T>
   void Node<T>::SetPrev(Node<T>* n) {
     prev_ = n;
-    n->next_ = this;
   }
 
 template <class T>
-  void Node<T>::SetData(const T& data) {
-    data_ = new T(data);
+  void Node<T>::SetData(const T& t) {
+    if(!data_)
+      data_ = new T(t);
+    else
+      *data_ = t;
+  }
+
+template <class T>
+  void Node<T>::SetData(T&& t) {
+    if(!data_)
+      data_ = new T(t);
+    else
+      *data_ = t;
+  }
+
+template <class T> 
+  void Node<T>::SetDataWithNull(const T& t) {
+    data_ = new T(t);
+  }
+
+template <class T>
+  void Node<T>::SetDataWithNull(T&& t) {
+    data_ = new T(t);
   }
 
 
 template <class T>
   LinkedList<T>::LinkedList() :
     head_(new Node<T>()),
-    tail_(new Node<T>())
-  {
-    head_->SetNext(tail_);
-    tail_->SetPrev(head_);
-  }
+    tail_(new Node<T>()) {
+      head_->SetNext(tail_);
+      tail_->SetPrev(head_);
+    }
+
+template <class T>
+  LinkedList<T>::LinkedList(LinkedList<T>&& l) :
+    head_(l.head_),
+    tail_(l.tail_) {}
 
 template <class T>
   LinkedList<T>::~LinkedList() {
-    for(auto ii = head_->Next(); ii != tail_->Next();ii = ii->Next()) {
+    for(auto ii = head_->Next(); ii != nullptr; ii = ii->Next())
       delete ii->Prev();
-    }
+
     delete tail_;
-    tail_ = nullptr;
     head_ = nullptr;
+    tail_ = nullptr;
   }
 
 template <class T>
-  LinkedList<T>::LinkedList(LinkedList&& l) {
+  LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& l) {
+    for(auto ii = head_->Next(); ii != nullptr; ii = ii->Next())
+      delete ii->Prev();
+
+    delete tail_;
+
     head_ = l.head_;
     tail_ = l.tail_;
+
+    return *this;
   }
 
-template <class T>
-  LinkedList<T>& LinkedList<T>::operator=(LinkedList&& l) {
-    if(head_)
-      delete head_;
-    head_ = l.head_;
-    tail_ = l.tail_;
-  }
-
-template <class T>
-  void LinkedList<T>::PushFront(const T& t) {
-    Node<T>* n = new Node<T>();
-    n->SetData(t);
-    n->SetNext(head_->Next());
-    head_->SetNext(n);
-    n->Next()->SetPrev(n);
-    n->SetPrev(head_);
-  }
-
-template <class T>
+template <class T> 
   void LinkedList<T>::PushBack(const T& t) {
-    Node<T>* n = new Node<T>();
-    n->SetData(t);
-    n->SetPrev(tail_->Prev());
-    n->SetNext(tail_);
-    tail_->SetPrev(n);
-    n->Prev()->SetNext(n);
+    tail_->SetDataWithNull(t);
+    Node<T>* n = new Node<T>(nullptr, tail_);
+    tail_->SetNext(n);
+    tail_ = n;
   }
 
 template <class T>
-  T* LinkedList<T>::PopFront() {
-    if(head_->Next() == tail_)
-      return nullptr;
-    Node<T>* ret = head_->Next();
-    head_->SetNext(ret->Next());
-    ret->Next()->SetPrev(head_);
-    return ret->Data();
+  void LinkedList<T>::PushBack(T&& t) {
+    tail_->SetDataWithNull(t);
+    Node<T>* n = new Node<T>(nullptr, tail_);
+    tail_->SetNext(n);
+    tail_ = n;
   }
-
-template <class T>
-  T* LinkedList<T>::PopBack() {
-    if(head_->Next() == tail_)
-      return nullptr;
-    Node<T>* ret = tail_->Prev();
-    tail_->SetPrev(ret->Prev());
-    ret->Prev()->SetNext(tail_);
-    return ret->Data();
-  }
-
-
