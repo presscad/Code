@@ -54,8 +54,9 @@ T init2(T t) {
 }
 
 int main() {
-	T t1(init());
-	T t2(init2(T()));
-	T t3(init2(t1));
+	T t1(init());				//<------ This won't call Move_Constructor! Because the return of init() is prvalue. 
+	T t2(init2(T()));	  //<------ Call Move_Constructor
+	T t3(init2(t1));    //<------ Call Move_constructor 2 times. one is initial of the parameter of init2
+											// other is constructor of t3. 
 	return 0;
 }
