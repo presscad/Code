@@ -39,11 +39,15 @@ T init() {
 
 void the_game(T t) {
 	int a = 0;
+	std::cout << t.a_ << std::endl;
 	return;
 }
 
 
 int main() {
+	the_game((init()));
 	the_game(std::move(init()));
+	int* p = std::move(nullptr);
+	std::move(123);
 	return 0;
 }
