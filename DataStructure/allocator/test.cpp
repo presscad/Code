@@ -23,11 +23,11 @@
 
 int main() {
 	allocator<int, 2>* s = new allocator<int, 2>();
-	for(int i = 0; i < 2; i++) {
+
+	for(int i = 0; i < 5; i++) {
 		int* p = new(s->alloc()) int(4);
 		*p = 5;
 	}
-
 	delete s;
 	return 0;
 }

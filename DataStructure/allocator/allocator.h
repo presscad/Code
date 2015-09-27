@@ -51,11 +51,11 @@ struct list_memory_pool {
 
 	~list_memory_pool() {
 		node_memory_pool* current = first_node_;
-		node_memory_pool* next = first_node_->next_;
+		node_memory_pool* next = nullptr;
 		while(current != nullptr) {
+			next = current->next_;
 			delete current;
 			current = next;
-			next = current->next_;
 		}
 	}
 };
@@ -73,7 +73,7 @@ class allocator {
 		void dealloc(void*);
 	private:
 		void* get_memory_from_system();
-		void* make_memory_become_linked_list(void*);
+		void* make_memory_become_linked_list(void* const);
 		void add_new_memory();
 	private:
 		list_memory_pool* list_memory_;

@@ -60,6 +60,7 @@ void* allocator<T, size>::alloc() {
 template <typename T, int size>
 void allocator<T, size>::add_new_memory() {
 	void* new_memory = get_memory_from_system();
+	list_memory_->add_new_memory_pool(new_memory);
 
 	last_->next_ = (node*)new_memory;
 	if(nullptr == free_block_)
@@ -74,18 +75,18 @@ void* allocator<T, size>::get_memory_from_system() {
 }
 
 template <typename T, int size>
-void* allocator<T, size>::make_memory_become_linked_list(void* memory_location) {
-	node* current_pos = (node*)memory_location;
+void* allocator<T, size>::make_memory_become_linked_list(void* const memory_location) {
+	void* current_pos = memory_location;
 	for(int i = 1; i < size - 1; i++) {
-		node* pos = current_pos + sizeof(node) + sizeof(T);
-		current_pos->next_ = pos;
-		pos->prev_ = current_pos;
+		node* pos = (node*)((char*)current_pos + sizeof(node) + sizeof(T));
+		((node*)current_pos)->next_ = pos;
+		pos->prev_ = (node*)current_pos;
 		current_pos = pos;
 	}
 
-	node* last_pos = current_pos + sizeof(node) + sizeof(T);
-	current_pos->next_ = last_pos;
-	last_pos->prev_ = current_pos;
+	node* last_pos = (node*)((char*)current_pos + sizeof(node) + sizeof(T));
+	((node*)current_pos)->next_ = last_pos;
+	last_pos->prev_ = (node*)current_pos;
 	last_pos->next_ = nullptr;
 	return last_pos;
 }
