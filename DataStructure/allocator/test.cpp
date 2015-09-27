@@ -21,12 +21,26 @@
 #include <iostream>
 #include <list>
 
-int main() {
-	allocator<int, 2>* s = new allocator<int, 2>();
+const std::size_t size = 100;
 
-	for(int i = 0; i < 5; i++) {
-		int* p = new(s->alloc()) int(4);
-		*p = 5;
+
+struct S {
+	int i;
+	double d;
+	S(const int& ii = 0, const double& dd = 0.0) : i(ii), d(dd) {}
+};
+
+
+using ALLOCATOR = allocator<S, size>;
+
+int main() {
+	ALLOCATOR* s = new ALLOCATOR();
+
+	for(std::size_t j = 0; j < 100000; j++) {
+		for(std::size_t i = 0; i < size; i++) {
+			S* p = new(s->alloc()) S(4, 4.4);
+			p->~S();
+		}
 	}
 	delete s;
 	return 0;
@@ -34,8 +48,13 @@ int main() {
 
 
 //int main() {
-//	for(int i = 0; i < 1000000; i++) {
-//		int *p = new int(3);
-//		delete p;
+//	for(int j = 0; j < 100; j++) {
+//		for(std::size_t i = 0; i < size; i++) {
+//			S* p = new S(4, 4.4);
+//			delete p;
+//		}
 //	}
+//	return 0;
 //}
+//
+//

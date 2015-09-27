@@ -27,6 +27,10 @@ struct node {
 struct node_memory_pool {
 	void* memory_node_;
 	node_memory_pool* next_;
+
+	node_memory_pool(void* const memory_node = nullptr) :
+		memory_node_(memory_node),
+		next_(nullptr) {}
 };
 
 struct list_memory_pool {
@@ -34,17 +38,13 @@ struct list_memory_pool {
 	node_memory_pool* last_node_;
 	
 	list_memory_pool(void* first_memory_pool) {
-		node_memory_pool* first = new node_memory_pool();
-		first->memory_node_ = first_memory_pool;
-		first->next_ = nullptr;
+		node_memory_pool* first = new node_memory_pool(first_memory_pool);
 		first_node_ = first;
 		last_node_ = first;
 	}
 
 	void add_new_memory_pool(void* memory_pool) {
-		node_memory_pool* new_pool = new node_memory_pool();
-		new_pool->memory_node_ = memory_pool;
-		new_pool->next_ = nullptr;
+		node_memory_pool* new_pool = new node_memory_pool(memory_pool);
 		last_node_->next_ = new_pool;
 		last_node_ = new_pool;
 	}

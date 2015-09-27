@@ -63,8 +63,8 @@ void allocator<T, size>::add_new_memory() {
 	list_memory_->add_new_memory_pool(new_memory);
 
 	last_->next_ = (node*)new_memory;
-	if(nullptr == free_block_)
-		free_block_ = (node*)new_memory;
+	assert(!free_block_);
+	free_block_ = (node*)new_memory;
 	last_ = (node*) make_memory_become_linked_list(new_memory);
 }
 
