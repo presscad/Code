@@ -28,36 +28,24 @@ struct node_memory_pool {
 	void* memory_node_;
 	node_memory_pool* next_;
 
-	node_memory_pool(void* const memory_node = nullptr) :
-		memory_node_(memory_node),
-		next_(nullptr) {}
+	node_memory_pool(void* const = nullptr);
+
+	node_memory_pool(node_memory_pool&&);
+	node_memory_pool(const node_memory_pool&) = delete;
 };
 
 struct list_memory_pool {
 	node_memory_pool* first_node_;
 	node_memory_pool* last_node_;
 	
-	list_memory_pool(void* first_memory_pool) {
-		node_memory_pool* first = new node_memory_pool(first_memory_pool);
-		first_node_ = first;
-		last_node_ = first;
-	}
+	list_memory_pool(void* const);
 
-	void add_new_memory_pool(void* memory_pool) {
-		node_memory_pool* new_pool = new node_memory_pool(memory_pool);
-		last_node_->next_ = new_pool;
-		last_node_ = new_pool;
-	}
+	list_memory_pool(const list_memory_pool&) = delete;
+	list_memory_pool(list_memory_pool&&);
 
-	~list_memory_pool() {
-		node_memory_pool* current = first_node_;
-		node_memory_pool* next = nullptr;
-		while(current != nullptr) {
-			next = current->next_;
-			delete current;
-			current = next;
-		}
-	}
+	void add_new_memory_pool(void* const);
+
+	~list_memory_pool();
 };
 
 template <typename T, int size>

@@ -21,6 +21,46 @@
 #include <iostream>
 #include <cassert>
 
+
+//struct node_memory_pool implement
+//=================================================
+node_memory_pool::node_memory_pool(void* const memory_node) :
+	memory_node_(memory_node),
+	next_(nullptr) {}
+
+node_memory_pool::node_memory_pool(node_memory_pool&& node) :
+	memory_node_(std::move(node.memory_node_)),
+	next_(std::move(node.next_)) {}
+//=================================================
+
+
+//struct list_memory_pool implement
+//=================================================
+list_memory_pool::list_memory_pool(void* const first_node) :
+	first_node_(new node_memory_pool(first_node)),
+	last_node_(first_node_) {}
+
+	list_memory_pool::list_memory_pool(list_memory_pool&& list) :
+	first_node_(std::move(list.first_node_)),
+	last_node_(std::move(list.last_node_)) {}
+
+void list_memory_pool::add_new_memory_pool(void* const memory_pool) {
+	last_node_->next_ = new node_memory_pool(memory_pool);
+	last_node_ = last_node_->next_;
+}
+
+list_memory_pool::~list_memory_pool() {
+	node_memory_pool* next_node = first_node_->next_;
+	for(node_memory_pool* current = first_node_; current != nullptr; current = next_node) {
+		next_node = current->next_;
+		delete current;
+	}
+}
+//=================================================
+
+
+//template class allocator implement
+//=================================================
 template <typename T, int size>
 allocator<T, size>::allocator() {
 	void* memory_pool = get_memory_from_system();
@@ -104,3 +144,4 @@ void allocator<T, size>::dealloc(void* data_location) {
 	last_ = location;
 }
 
+//===================================================
